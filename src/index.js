@@ -5,12 +5,23 @@ import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AuthLayout from 'layouts/auth';
 import AdminLayout from 'layouts/admin';
 import RtlLayout from 'layouts/rtl';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
+import { GlobalStyle } from '@chakra-ui/react';
+
+const config = {
+	initialColorMode: "dark",
+	useSystemColorMode: false,
+  };
+
+const customTheme = extendTheme(theme, { config }); // Use the extendTheme function to modify the base theme
+
 
 ReactDOM.render(
-	<ChakraProvider theme={theme}>
+	<ChakraProvider theme={customTheme}>
+    <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
+    <GlobalStyle />
 		<React.StrictMode>
 			<ThemeEditorProvider>
 				<HashRouter>
