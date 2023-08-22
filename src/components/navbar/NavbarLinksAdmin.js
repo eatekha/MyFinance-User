@@ -25,7 +25,33 @@ import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
 import { ThemeEditor } from './ThemeEditor';
+
 export default function HeaderLinks(props) {
+
+	const fullURL = window.location.href;
+	var queryString = fullURL.split('?')[1]; // Split the URL by '?' and take the second part
+	var username = "Demo";
+	
+	if (queryString) {
+		// Split the query string into parameter-value pairs
+		const paramsArray = queryString.split('&');
+		
+		// Loop through the parameter-value pairs to find the user_name parameter
+		paramsArray.forEach(function(param) {
+			const [paramName, paramValue] = param.split('=');
+			if (paramName === 'user_name') {
+				const decodedValue = decodeURIComponent(paramValue);
+				username = decodedValue;
+				console.log('user_name:', decodedValue);
+				// Now you have the value of the user_name parameter
+			}
+		});
+	} else {
+		console.log("No query parameters found in the URL.");
+	}
+
+
+
 	const { secondary } = props;
 	// Chakra Color Mode
 	const navbarIcon = useColorModeValue('gray.400', 'white');
@@ -171,7 +197,7 @@ export default function HeaderLinks(props) {
 					<Avatar
 						_hover={{ cursor: 'pointer' }}
 						color="white"
-						name="Adela Parkson"
+						name= {username}
 						bg="#11047A"
 						size="sm"
 						w="40px"
@@ -190,7 +216,7 @@ export default function HeaderLinks(props) {
 							fontSize="sm"
 							fontWeight="700"
 							color={textColor}>
-							👋&nbsp; Hey, Adela
+							👋&nbsp; Hey, {username}
 						</Text>
 					</Flex>
 					<Flex flexDirection="column" p="10px">
