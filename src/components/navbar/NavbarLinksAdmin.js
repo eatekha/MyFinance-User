@@ -25,31 +25,11 @@ import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
 import { ThemeEditor } from './ThemeEditor';
+import extractUsername from 'components/functions/extractUsername';
 
 export default function HeaderLinks(props) {
 
-	const fullURL = window.location.href;
-	var queryString = fullURL.split('?')[1]; // Split the URL by '?' and take the second part
-	var username = "Demo";
-	
-	if (queryString) {
-		// Split the query string into parameter-value pairs
-		const paramsArray = queryString.split('&');
-		
-		// Loop through the parameter-value pairs to find the user_name parameter
-		paramsArray.forEach(function(param) {
-			const [paramName, paramValue] = param.split('=');
-			if (paramName === 'user_name') {
-				const decodedValue = decodeURIComponent(paramValue);
-				username = decodedValue;
-				console.log('user_name:', decodedValue);
-				// Now you have the value of the user_name parameter
-			}
-		});
-	} else {
-		console.log("No query parameters found in the URL.");
-	}
-
+	const username = extractUsername();
 
 
 	const { secondary } = props;
@@ -98,100 +78,6 @@ export default function HeaderLinks(props) {
 				</Text>
 			</Flex>
 			<SidebarResponsive routes={routes} />
-			<Menu>
-				<MenuButton p="0px">
-					<Icon mt="6px" as={MdNotificationsNone} color={navbarIcon} w="18px" h="18px" me="10px" />
-				</MenuButton>
-				<MenuList
-					boxShadow={shadow}
-					p="20px"
-					borderRadius="20px"
-					bg={menuBg}
-					border="none"
-					mt="22px"
-					me={{ base: '30px', md: 'unset' }}
-					minW={{ base: 'unset', md: '400px', xl: '450px' }}
-					maxW={{ base: '360px', md: 'unset' }}>
-					<Flex jusitfy="space-between" w="100%" mb="20px">
-						<Text fontSize="md" fontWeight="600" color={textColor}>
-							Notifications
-						</Text>
-						<Text fontSize="sm" fontWeight="500" color={textColorBrand} ms="auto" cursor="pointer">
-							Mark all read
-						</Text>
-					</Flex>
-					<Flex flexDirection="column">
-						<MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} px="0" borderRadius="8px" mb="10px">
-							<ItemContent info="Horizon UI Dashboard PRO" aName="Alicia" />
-						</MenuItem>
-						<MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} px="0" borderRadius="8px" mb="10px">
-							<ItemContent info="Horizon Design System Free" aName="Josh Henry" />
-						</MenuItem>
-					</Flex>
-				</MenuList>
-			</Menu>
-
-      <Menu>
-        <MenuButton p='0px'>
-          <Icon
-            mt='6px'
-            as={MdInfoOutline}
-            color={navbarIcon}
-            w='18px'
-            h='18px'
-            me='10px'
-          />
-        </MenuButton>
-        <MenuList
-          boxShadow={shadow}
-          p='20px'
-          me={{ base: "30px", md: "unset" }}
-          borderRadius='20px'
-          bg={menuBg}
-          border='none'
-          mt='22px'
-          minW={{ base: "unset" }}
-          maxW={{ base: "360px", md: "unset" }}>
-          <Image src={navImage} borderRadius='16px' mb='28px' />
-          <Flex flexDirection='column'>
-            <Link
-              w='100%'
-              href='https://horizon-ui.com/pro?ref=horizon-chakra-free'>
-              <Button w='100%' h='44px' mb='10px' variant='brand'>
-                Buy Horizon UI PRO
-              </Button>
-            </Link>
-            <Link
-              w='100%'
-              href='https://horizon-ui.com/documentation/docs/introduction?ref=horizon-chakra-free'>
-              <Button
-                w='100%'
-                h='44px'
-                mb='10px'
-                border='1px solid'
-                bg='transparent'
-                borderColor={borderButton}>
-                See Documentation
-              </Button>
-            </Link>
-            <Link
-              w='100%'
-              href='https://github.com/horizon-ui/horizon-ui-chakra'>
-              <Button
-                w='100%'
-                h='44px'
-                variant='no-hover'
-                color={textColor}
-                bg='transparent'>
-                Try Horizon Free
-              </Button>
-            </Link>
-          </Flex>
-        </MenuList>
-      </Menu>
-
-			<ThemeEditor navbarIcon={navbarIcon} />
-
 			<Menu>
 				<MenuButton p="0px">
 					<Avatar
