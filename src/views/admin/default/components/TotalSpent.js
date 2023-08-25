@@ -1,4 +1,8 @@
-// Chakra imports
+/**
+ * This file edits the line chart to show expenses anad earnings for user
+ */
+
+
 import {
   Box,
   Button,
@@ -14,13 +18,72 @@ import React from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { MdBarChart, MdOutlineCalendarToday } from "react-icons/md";
 // Assets
-import { RiArrowUpSFill } from "react-icons/ri";
-import {
-  lineChartDataTotalSpent,
-  lineChartOptionsTotalSpent,
+import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
+import {  lineChartOptionsTotalSpent,
 } from "variables/charts";
+import { useState, useEffect, useMemo } from 'react';
+import extractUsername from "components/functions/extractUsername";
+
 
 export default function TotalSpent(props) {
+  //Code
+  const [expenseData, setExpenseData] = useState([]);
+  const [earningsData, setEarningsData] = useState([]);
+  const username = extractUsername();
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const apiUrl = 'http://localhost:4000/transactionsChart'; // Replace with your actual API URL
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_name: username })
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        // Process the data and update the state variables
+        setExpenseData(data.map(entry => entry.expenses));
+        setEarningsData(data.map(entry => entry.earnings));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    fetchUserData();
+  }, []);
+  
+  const lineChartDataTotalSpent = useMemo(() => [
+    {
+      name: "Earnings",
+      data: earningsData
+
+    },
+    {
+      name: "Expenses",
+      data: expenseData
+    }
+
+
+    // ... other data
+  ], [expenseData, earningsData]);
+
+
+
+
+
+
+
+
+
+
   const { ...rest } = props;
 
   // Chakra Color Mode
@@ -86,37 +149,33 @@ export default function TotalSpent(props) {
             textAlign='start'
             fontWeight='700'
             lineHeight='100%'>
-            $37.5K
+            {'$' + expenseData[5]}
           </Text>
-          <Flex align='center' mb='20px'>
-            <Text
-              color='secondaryGray.600'
-              fontSize='sm'
-              fontWeight='500'
-              mt='4px'
-              me='12px'>
-              Total Spent
-            </Text>
-            <Flex align='center'>
-              <Icon as={RiArrowUpSFill} color='green.500' me='2px' mt='2px' />
-              <Text color='green.500' fontSize='sm' fontWeight='700'>
-                +2.45%
-              </Text>
-            </Flex>
-          </Flex>
-
-          <Flex align='center'>
-            <Icon as={IoCheckmarkCircle} color='green.500' me='4px' />
-            <Text color='green.500' fontSize='md' fontWeight='700'>
-              On track
-            </Text>
-          </Flex>
+        <Flex align='center'>
+          <Icon
+            as={expenseData[4] !== 0 ? RiArrowUpSFill : RiArrowDownSFill}
+            color={expenseData[4] !== 0 ? 'green.500' : 'red.500'}
+            me='2px'
+            mt='2px'
+          />
+          <Text
+            color={expenseData[4] !== 0 ? 'green.500' : 'red.500'}
+            fontSize='sm'
+            fontWeight='700'
+          >
+            {expenseData[4] == 0
+              ?`${expenseData[5]}%` 
+              : `${(expenseData[5] / expenseData[4]).toFixed(2)}%`}
+          </Text>
+        </Flex>
         </Flex>
         <Box minH='260px' minW='75%' mt='auto'>
-          <LineChart
+        {expenseData.length > 0 && earningsData.length > 0 && (
+           <LineChart
             chartData={lineChartDataTotalSpent}
             chartOptions={lineChartOptionsTotalSpent}
           />
+)}
         </Box>
       </Flex>
     </Card>

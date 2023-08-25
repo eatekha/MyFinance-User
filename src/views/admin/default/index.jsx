@@ -39,14 +39,19 @@ export default function UserReports() {
 
   const username = extractUsername();
   const [expenses, setExpenses] = useState("0"); // Initialize as a string
-  const [earnings, setEarnings] = useState("0");
+  const [earnings, setEarnings] = useState(0);
   const [transactionTotal, setTransactionTotal] = useState("0");
   const [diff, setDiff] = useState("0");
 
   useEffect(() => {
-    // Replace 'http://localhost:4000/summaryTransactions' with your actual endpoint
     fetchData(username);
   }, []);
+  useEffect(() => {
+    // Calculate the difference whenever earnings or expenses change
+    const parsedDiff = parseFloat(earnings) + parseFloat(expenses);
+    setDiff(isNaN(parsedDiff) ? 0: parsedDiff);
+  }, [earnings, expenses]);
+
 
   const fetchData = async (username) => {
     try {
@@ -65,7 +70,8 @@ export default function UserReports() {
       const data = await response.json();
 
       setExpenses(data.Expenses.total_negative_amount);
-      setEarnings(data.Earnings.total_positive_amount);
+      const parsedEarnings = parseFloat(data.Earnings.total_positive_amount);
+      setEarnings(isNaN(parsedEarnings) ? 0 : parsedEarnings);
       setTransactionTotal((data.TotalTransactions.count));
     } catch (error) {
       console.error('Error:', error);
@@ -73,10 +79,6 @@ export default function UserReports() {
     }
   };
 
-  useEffect(() => {
-    // Calculate the difference whenever earnings or expenses change
-    setDiff(parseFloat(earnings) + parseFloat(expenses));
-  }, [earnings, expenses]);
 
 
   

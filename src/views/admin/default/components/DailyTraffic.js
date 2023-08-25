@@ -6,16 +6,30 @@ import BarChart from "components/charts/BarChart";
 
 // Custom components
 import Card from "components/card/Card.js";
-import {
-  barChartDataDailyTraffic,
-  barChartOptionsDailyTraffic,
-} from "variables/charts";
-
+import { barChartOptionsDailyTraffic} from "variables/charts";
 // Assets
 import { RiArrowUpSFill } from "react-icons/ri";
 
+
 export default function DailyTraffic(props) {
+
+  
+  
   const { ...rest } = props;
+  const barChartDataDailyTraffic = [
+    {
+      name: "Daily Traffic",
+      data: [20, 20, 40, 20, 45, 50, 30],
+    },
+  ];
+  
+  
+  
+
+
+
+
+
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");

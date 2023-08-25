@@ -1,4 +1,17 @@
 // Daily Traffic Dashboards Default
+import React, { useState, useEffect } from 'react';
+import getLast6MonthsArray from 'components/functions/sixMonthSummary';
+
+
+
+
+export default function YourComponent() {
+
+
+  // Rest of your component code...
+}
+
+
 
 export const barChartDataDailyTraffic = [
   {
@@ -251,7 +264,15 @@ export const pieChartData = [63, 25, 12];
 
 // Total Spent Default
 
+
+
+
+
+
+
+
 export const lineChartDataTotalSpent = [
+
   {
     name: "Revenue",
     data: [50, 64, 48, 66, 49, 68],
@@ -304,7 +325,7 @@ export const lineChartOptionsTotalSpent = {
   },
   xaxis: {
     type: "numeric",
-    categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB"],
+    categories: getLast6MonthsArray(),
     labels: {
       style: {
         colors: "#A3AED0",
