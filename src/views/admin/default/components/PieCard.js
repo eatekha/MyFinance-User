@@ -3,11 +3,103 @@ import { Box, Flex, Text, Select, useColorModeValue } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card.js";
 import PieChart from "components/charts/PieChart";
-import { pieChartData, pieChartOptions } from "variables/charts";
 import { VSeparator } from "components/separator/Separator";
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import extractUsername from "components/functions/extractUsername";
 
 export default function Conversion(props) {
+//[expense data], [expenses]
+
+const [categories, setCategories] = useState([]);
+const [categoryValue, setCategoryValue] = useState([]);
+const username = extractUsername();
+
+useEffect(() => {
+  async function fetchUserData() {
+    const apiUrl = 'http://localhost:4000/pieChart'; 
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_name: username })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      // Process the data and update the state variables
+      const categoriesArray = Object.keys(data); // Extract category names
+      const valuesArray = Object.values(data).map(value => value === null ? 0 : value) ; // Replace null with 0
+
+      setCategories(categoriesArray); // Update categories state
+      setCategoryValue(valuesArray); // Update categoryValue state
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  fetchUserData();
+}, [username]); // Add username as a dependency to useEffect
+
+
+
+
+const pieChartData = categoryValue;
+
+const pieChartOptions = {
+  labels: categories,
+  colors: ["#4318FF", "#6AD2FF", "#EFF4FB", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
+  chart: {
+    width: "50px",
+  },
+  states: {
+    hover: {
+      filter: {
+        type: "none",
+      },
+    },
+  },
+  legend: {
+    show: false,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  hover: { mode: null },
+  plotOptions: {
+    donut: {
+      expandOnClick: false,
+      donut: {
+        labels: {
+          show: false,
+        },
+      },
+    },
+  },
+  fill: {
+  colors: ["#4318FF", "#6AD2FF", "#EFF4FB", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
+  },
+  tooltip: {
+    enabled: true,
+    theme: "dark",
+  },
+};
+
+
+
+//[1,1,1,1,1,1,1,1,1]
+
+
+
+
+
   const { ...rest } = props;
 
   // Chakra Color Mode
@@ -38,13 +130,14 @@ export default function Conversion(props) {
           <option value='yearly'>Yearly</option>
         </Select>
       </Flex>
-
-      <PieChart
-        h='100%'
-        w='100%'
-        chartData={pieChartData}
-        chartOptions={pieChartOptions}
-      />
+      {pieChartData.length > 0 && (
+  <PieChart
+    h='100%'
+    w='100%'
+    chartData= {pieChartData}
+    chartOptions={pieChartOptions}
+  />
+)}
       <Card
         bg={cardColor}
         flexDirection='row'
@@ -62,29 +155,17 @@ export default function Conversion(props) {
               color='secondaryGray.600'
               fontWeight='700'
               mb='5px'>
-              Your files
+              Highest
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
-            63%
-          </Text>
+          {categoryValue.length > 0 && (
+  <div>
+    {Math.max(...categoryValue) + '%'}
+  </div>
+)}          </Text>
         </Flex>
-        <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
-        <Flex direction='column' py='5px' me='10px'>
-          <Flex align='center'>
-            <Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
-            <Text
-              fontSize='xs'
-              color='secondaryGray.600'
-              fontWeight='700'
-              mb='5px'>
-              System
-            </Text>
-          </Flex>
-          <Text fontSize='lg' color={textColor} fontWeight='700'>
-            25%
-          </Text>
-        </Flex>
+       
       </Card>
     </Card>
   );

@@ -42,10 +42,51 @@ export default function UserReports() {
   const [earnings, setEarnings] = useState(0);
   const [transactionTotal, setTransactionTotal] = useState("0");
   const [diff, setDiff] = useState("0");
+  const currentDate = new Date();
+  const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+  const [allTimeTransactions, setAllTimeTransactions] = useState("0"); // Initialize as a string
+
+
+
+  async function fetchTransactionTotal(username) {
+    const apiUrl = 'http://localhost:4000/totalProjects'; 
+    const requestBody = JSON.stringify({ user_name: username });
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setAllTimeTransactions(data.transactions.count);
+      return data.transactions.count; // Assuming the API response structure matches { transactions: transactionTotal }
+    } catch (error) {
+      console.error('Error:', error);
+      return 0;
+    }
+  }
+
+
+
 
   useEffect(() => {
+    fetchTransactionTotal(username);
     fetchData(username);
   }, []);
+
+
+
+
+  /// +/- box
+
   useEffect(() => {
     // Calculate the difference whenever earnings or expenses change
     const parsedDiff = parseFloat(earnings) + parseFloat(expenses);
@@ -60,7 +101,7 @@ export default function UserReports() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_name: username })
+        body: JSON.stringify({ user_name: username, month: currentMonth })
       });
 
       if (!response.ok) {
@@ -81,6 +122,52 @@ export default function UserReports() {
 
 
 
+
+
+
+
+  //Favourite Expense Box
+  const [maxKey, setMaxKey] = useState("");
+  
+  useEffect(() => {
+    async function fetchUserData() {
+      const apiUrl = 'http://localhost:4000/pieChart'; 
+  
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_name: username })
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        const data = await response.json();  
+  
+        const maxKey = Object.keys(data).reduce((a, b) => data[a] > data[b] ? a : b);
+        setMaxKey(maxKey)
+
+        // Process the data and update the state variables
+        //const categoriesArray = Object.keys(data); // Extract category names
+        //const valuesArray = Object.values(data).map(value => value === null ? 0 : value) ; // Replace null with 0
+  
+        //setCategories(categoriesArray); // Update categories state
+        //setCategoryValue(valuesArray); // Update categoryValue state
+  
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  
+    fetchUserData();
+  }, [username]); // Add username as a dependency to useEffect
+  
+  
+  
   
 
 
@@ -124,21 +211,9 @@ export default function UserReports() {
         />
         <MiniStatistics growth='+23%' name='+/-' value={'$' + diff} onChange={setDiff} />
         <MiniStatistics
-          endContent={
-            <Flex me='-16px' mt='10px'>
-              <FormLabel htmlFor='balance'>
-              </FormLabel>
-              <Select
-                id='balance'
-                variant='mini'
-                mt='5px'
-                me='0px'
-                defaultValue='cad'>
-              </Select>
-            </Flex>
-          }
-          name='Your balance'
-          value='$1,000'
+          
+          name='Favourite Expense'
+          value={maxKey}
         />
         <MiniStatistics
           startContent={
@@ -163,8 +238,8 @@ export default function UserReports() {
               }
             />
           }
-          name='Total Projects'
-          value='2935'
+          name='Overall Transactions'
+          value= {allTimeTransactions}
         />
       </SimpleGrid>
 
