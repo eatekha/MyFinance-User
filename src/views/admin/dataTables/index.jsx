@@ -21,45 +21,91 @@
 */
 
 // Chakra imports
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid, Grid } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
-import CheckTable from "views/admin/dataTables/components/CheckTable";
-import ColumnsTable from "views/admin/dataTables/components/ColumnsTable";
-import ComplexTable from "views/admin/dataTables/components/ComplexTable";
-import {
-  columnsDataDevelopment,
-  columnsDataCheck,
-  columnsDataColumns,
-  columnsDataComplex,
-} from "views/admin/dataTables/variables/columnsData";
-import tableDataDevelopment from "views/admin/dataTables/variables/tableDataDevelopment.json";
+import extractUsername from "components/functions/extractUsername";
+
 import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
 import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
 import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Upload from "../profile/components/Upload";
+
+
+const columnsDataDevelopment = [
+  {
+    Header: "TRANSACTION",
+    accessor: "transaction",
+  },
+  {
+    Header: "KEYWORD",
+    accessor: "keyword",
+  },
+  {
+    Header: "DATE",
+    accessor: "date",
+  },
+  {
+    Header: "AMOUNT",
+    accessor: "amount",
+  },
+
+  {
+    Header: "CATEGORY",
+    accessor: "category",
+  }
+];
 
 export default function Settings() {
+  
+
+  const [tableDataDevelopment, setTableDataDevelopment] = useState([]);
+  const username = extractUsername();
+
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const apiUrl = 'http://localhost:4000/transactionTable';
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_name: username })
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        // Update the state with the fetched data
+        setTableDataDevelopment(data);
+        return data;
+
+      } catch (error) {
+        console.log(error);
+        console.error("Error:", error);
+
+      }
+    }
+
+    fetchUserData();
+  }, [username]);
+
   // Chakra Color Mode
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <SimpleGrid
-        mb='20px'
-        columns={{ sm: 1, md: 2 }}
-        spacing={{ base: "20px", xl: "20px" }}>
+    <Grid templateColumns="60% 40%" gap="20px">
+
         <DevelopmentTable
           columnsData={columnsDataDevelopment}
           tableData={tableDataDevelopment}
         />
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <ColumnsTable
-          columnsData={columnsDataColumns}
-          tableData={tableDataColumns}
-        />
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        />
-      </SimpleGrid>
+       <Upload/>
+      </Grid>
     </Box>
   );
 }

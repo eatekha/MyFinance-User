@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/card/Card";
-import { AndroidLogo, AppleLogo, WindowsLogo } from "components/icons/Icons";
 import Menu from "components/menu/MainMenu";
 import React, { useMemo } from "react";
 import {
@@ -49,6 +48,8 @@ export default function DevelopmentTable(props) {
   } = tableInstance;
   initialState.pageSize = 11;
 
+  
+
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const iconColor = useColorModeValue("secondaryGray.500", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
@@ -64,11 +65,11 @@ export default function DevelopmentTable(props) {
           fontSize='22px'
           fontWeight='700'
           lineHeight='100%'>
-          Development Table
+          Transactions
         </Text>
         <Menu />
       </Flex>
-      <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
+      <Table {...getTableProps()} variant='simple'  color='gray.500' mb='24px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -97,56 +98,56 @@ export default function DevelopmentTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.Header === "NAME") {
+                  if (cell.column.Header === "TRANSACTION") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "TECH") {
+                  }  else if (cell.column.Header === "KEYWORD") {
                     data = (
-                      <Flex align='center'>
-                        {cell.value.map((item, key) => {
-                          if (item === "apple") {
-                            return (
-                              <AppleLogo
-                                key={key}
-                                color={iconColor}
-                                me='16px'
-                                h='18px'
-                                w='15px'
-                              />
-                            );
-                          } else if (item === "android") {
-                            return (
-                              <AndroidLogo
-                                key={key}
-                                color={iconColor}
-                                me='16px'
-                                h='18px'
-                                w='16px'
-                              />
-                            );
-                          } else if (item === "windows") {
-                            return (
-                              <WindowsLogo
-                                key={key}
-                                color={iconColor}
-                                h='18px'
-                                w='19px'
-                              />
-                            );
-                          }
-                        })}
-                      </Flex>
+                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {cell.value}
+                      </Text>
                     );
+                  } 
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  else if (cell.column.Header === "AMOUNT") {
+                      data = (
+                        <Text color={textColor} fontSize='sm' fontWeight='700'>
+                          {cell.value}
+                        </Text>
+                      );
+       
                   } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "PROGRESS") {
+                  } else if (cell.column.Header === "CATEGORY") {
+                    data = (
+                      <Flex align='center'>
+                        <Text
+                          me='10px'
+                          color={textColor}
+                          fontSize='sm'
+                          fontWeight='700'>
+                          {cell.value}
+                        </Text>
+                      </Flex>
+                    );
+                  } else if (cell.column.Header === "TEST") {
                     data = (
                       <Flex align='center'>
                         <Text

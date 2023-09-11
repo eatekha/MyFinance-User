@@ -1,12 +1,24 @@
-// Chakra imports
+// Dropzone.js
 import { Button, Flex, Input, useColorModeValue } from "@chakra-ui/react";
-// Assets
-import React from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 function Dropzone(props) {
-  const { content, ...rest } = props;
-  const { getRootProps, getInputProps } = useDropzone();
+  const { content, onFileSelected, ...rest } = props; // Add the onFileSelected prop
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: useCallback(
+      (acceptedFiles) => {
+        if (acceptedFiles.length > 0) {
+          const selectedFile = acceptedFiles[0];
+          onFileSelected(selectedFile); // Call the callback with the selected file
+        }
+      },
+      [onFileSelected]
+    ),
+    accept: ".csv", // Specify accepted file types
+
+  });
+
   const bg = useColorModeValue("gray.100", "navy.700");
   const borderColor = useColorModeValue("secondaryGray.100", "whiteAlpha.100");
   return (

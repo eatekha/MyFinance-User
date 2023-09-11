@@ -55,7 +55,7 @@ const pieChartData = categoryValue;
 
 const pieChartOptions = {
   labels: categories,
-  colors: ["#4318FF", "#6AD2FF", "#EFF4FB", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
+  colors: ["#4318FF", "#6AD2FF", "#000000", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
   chart: {
     width: "50px",
   },
@@ -84,7 +84,7 @@ const pieChartOptions = {
     },
   },
   fill: {
-  colors: ["#4318FF", "#6AD2FF", "#EFF4FB", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
+    colors: ["#4318FF", "#6AD2FF", "#000000", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
   },
   tooltip: {
     enabled: true,
