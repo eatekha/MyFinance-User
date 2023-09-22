@@ -35,12 +35,21 @@ const routes = [
     path: "/data-tables",
     component: DataTables,
   },
+  /*
     {
     name: "Budget",
     layout: "/admin",
     icon: <Icon as={MdAttachMoney} width='20px' height='20px' color='inherit' />,
+    path: "/rtl",
+    component: RTL,
+  },
+  */
+  {
+    name: "Profile",
+    layout: "/admin",
     path: "/profile",
-    component: DataTables,
+    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    component: Profile,
   },
   /*
   {

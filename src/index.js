@@ -8,7 +8,9 @@ import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
 import { GlobalStyle } from '@chakra-ui/react';
+import Home from 'app/(default)/page.tsx';
 
+//
 const config = {
 	initialColorMode: "dark",
 	useSystemColorMode: false,
