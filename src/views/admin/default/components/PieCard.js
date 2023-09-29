@@ -5,14 +5,13 @@ import Card from "components/card/Card.js";
 import PieChart from "components/charts/PieChart";
 import { VSeparator } from "components/separator/Separator";
 import React, { useEffect, useState, useMemo } from "react";
-import extractUsername from "components/functions/extractUsername";
 
 export default function Conversion(props) {
 //[expense data], [expenses]
 
+const user_id = sessionStorage.getItem('user_id');
 const [categories, setCategories] = useState([]);
 const [categoryValue, setCategoryValue] = useState([]);
-const username = extractUsername();
 
 useEffect(() => {
   async function fetchUserData() {
@@ -24,7 +23,7 @@ useEffect(() => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_name: username })
+        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
       });
 
       if (!response.ok) {
@@ -46,7 +45,7 @@ useEffect(() => {
   }
 
   fetchUserData();
-}, [username]); // Add username as a dependency to useEffect
+}, [user_id]); // Add username as a dependency to useEffect
 
 
 
@@ -55,7 +54,7 @@ const pieChartData = categoryValue;
 
 const pieChartOptions = {
   labels: categories,
-  colors: ["#4318FF", "#6AD2FF", "#000000", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
+  colors: ["#00008B", "#1F75FE", "#74BBFB", "#0B0B3B", "#0000FF", "#0755b3", "#D633FF", "#33EFFF", "#0B0B61"],
   chart: {
     width: "50px",
   },
@@ -84,7 +83,7 @@ const pieChartOptions = {
     },
   },
   fill: {
-    colors: ["#4318FF", "#6AD2FF", "#000000", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
+    colors: ["#00008B", "#1F75FE", "#74BBFB", "#0B0B3B", "#0000FF", "#0755b3", "#33EFFF"],
   },
   tooltip: {
     enabled: true,

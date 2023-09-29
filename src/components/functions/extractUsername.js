@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 
-export default function extractUsername() {
-    const fullURL = window.location.href;
-    const queryString = fullURL.split('?')[1]; // Split the URL by '?' and take the second part
-    
-    if (queryString) {
-        // Split the query string into parameter-value pairs
-        const paramsArray = queryString.split('&');
-        
-        // Use the find method to look for the user_name parameter
-        const userNameParam = paramsArray.find(param => param.startsWith('user_name='));
-        
-        if (userNameParam) {
-            const decodedValue = decodeURIComponent(userNameParam.split('=')[1]);
-            return decodedValue;
-        } else {
-            console.log("user_name parameter not found in the query string.");
-            return "Demo";
-        }
-    } else {
-        console.log("No query parameters found in the URL.");
-        return "Demo";
+async function ExtractUsername() {
+  const user_id = sessionStorage.getItem('user_id');
+  const apiUrl = 'http://localhost:4000/getUsername';
+  const requestBody = JSON.stringify({ user_id: user_id });
+
+  // Define an async function to fetch data
+  useEffect(() => {
+
+  async function fetchData() {
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      return data.username;
+    } catch (error) {
+      console.error('Error:', error);
     }
+  }
+
+    if (user_id) {
+      fetchData(); // Call the fetchData function without a return statement
+    }
+  }, [user_id]);
+
+
+  // No return statement in this function
 }
+
+export default ExtractUsername;

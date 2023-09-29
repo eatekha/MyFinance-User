@@ -8,6 +8,16 @@ import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
 import { GlobalStyle } from '@chakra-ui/react';
+import ExtractID from 'components/functions/ExtractID';
+
+ExtractID(); //runs before app is rendered
+const sessionItem = sessionStorage.getItem('user_id'); //checks whether user logged in to display infromation
+    
+if (!sessionItem) {
+  // Redirect to your desired link if it's empty
+window.location.href = 'http://localhost:3000/';
+}
+
 
 const config = {
 	initialColorMode: "dark",
@@ -18,6 +28,7 @@ const customTheme = extendTheme(theme, { config }); // Use the extendTheme funct
 
 
 ReactDOM.render(
+	
 	<ChakraProvider theme={customTheme}>
     <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
     <GlobalStyle />

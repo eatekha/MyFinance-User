@@ -3,8 +3,6 @@ Thhis file calls on thte transaction summary api and get the values necessary fo
 it then renders it onto the dashboard
 
 */
-
-// Chakra imports
 import {
   Avatar,
   Box,
@@ -31,13 +29,11 @@ import {
 } from "react-icons/md";
 
 import PieCard from "views/admin/default/components/PieCard";
-import extractUsername from 'components/functions/extractUsername';
-
 import TotalSpent from "views/admin/default/components/TotalSpent";
 
 export default function UserReports() {
 
-  const username = extractUsername();
+  const user_id = sessionStorage.getItem('user_id');
   const [expenses, setExpenses] = useState("0"); // Initialize as a string
   const [earnings, setEarnings] = useState(0);
   const [transactionTotal, setTransactionTotal] = useState("0");
@@ -48,9 +44,10 @@ export default function UserReports() {
 
 
 
-  async function fetchTransactionTotal(username) {
+  async function fetchTransactionTotal(user_id) {
     const apiUrl = 'http://localhost:4000/totalProjects'; 
-    const requestBody = JSON.stringify({ user_name: username });
+    const requestBody = JSON.stringify({ user_id: user_id });
+
   
     try {
       const response = await fetch(apiUrl, {
@@ -78,8 +75,8 @@ export default function UserReports() {
 
 
   useEffect(() => {
-    fetchTransactionTotal(username);
-    fetchData(username);
+    fetchTransactionTotal(user_id);
+    fetchData(user_id);
   }, []);
 
 
@@ -101,7 +98,8 @@ export default function UserReports() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_name: username, month: currentMonth })
+        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') , month:currentMonth}), // Modify as needed
+
       });
 
       if (!response.ok) {
@@ -139,7 +137,7 @@ export default function UserReports() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_name: username })
+          body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
         });
   
         if (!response.ok) {
@@ -164,7 +162,7 @@ export default function UserReports() {
     }
   
     fetchUserData();
-  }, [username]); // Add username as a dependency to useEffect
+  }, [user_id]); // Add username as a dependency to useEffect
   
   
   

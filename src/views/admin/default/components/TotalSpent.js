@@ -22,14 +22,12 @@ import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import {  lineChartOptionsTotalSpent,
 } from "variables/charts";
 import { useState, useEffect, useMemo } from 'react';
-import extractUsername from "components/functions/extractUsername";
 
 
 export default function TotalSpent(props) {
   //Code
   const [expenseData, setExpenseData] = useState([]);
   const [earningsData, setEarningsData] = useState([]);
-  const username = extractUsername();
 
   useEffect(() => {
     async function fetchUserData() {
@@ -41,7 +39,7 @@ export default function TotalSpent(props) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_name: username })
+          body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
         });
 
         if (!response.ok) {

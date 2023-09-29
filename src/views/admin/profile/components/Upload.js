@@ -7,14 +7,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Card from "components/card/Card.js";
-import extractUsername from "components/functions/extractUsername";
 import React, { useState } from "react";
 import { MdUpload } from "react-icons/md";
 import Dropzone from "views/admin/profile/components/Dropzone";
 
 export default function Upload(props) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const username = extractUsername();
+	const username = sessionStorage.getItem('user_name');
 
 
   const handleFileSelected = (file) => {

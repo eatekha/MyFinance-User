@@ -1,11 +1,6 @@
 
 import { Box, SimpleGrid, Grid } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
-import extractUsername from "components/functions/extractUsername";
-
-import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
-import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
-import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
 import React, { useState, useEffect } from "react";
 import Upload from "../profile/components/Upload";
 
@@ -36,9 +31,8 @@ const columnsDataDevelopment = [
 
 export default function Settings() {
   
-
+  const user_id = sessionStorage.getItem('user_id');
   const [tableDataDevelopment, setTableDataDevelopment] = useState([]);
-  const username = extractUsername();
 
 
   useEffect(() => {
@@ -51,7 +45,7 @@ export default function Settings() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_name: username })
+          body: JSON.stringify({ user_id: user_id })
         });
 
         if (!response.ok) {
@@ -71,7 +65,7 @@ export default function Settings() {
     }
 
     fetchUserData();
-  }, [username]);
+  }, [user_id]);
 
   // Chakra Color Mode
   return (

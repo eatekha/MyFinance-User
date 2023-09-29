@@ -49,19 +49,7 @@ function TopCreatorTable(props) {
         direction='column'
         w='100%'
         overflowX={{ sm: "scroll", lg: "hidden" }}>
-        <Flex
-          align={{ sm: "flex-start", lg: "center" }}
-          justify='space-between'
-          w='100%'
-          px='22px'
-          pb='20px'
-          mb='10px'
-          boxShadow='0px 40px 58px -20px rgba(112, 144, 176, 0.26)'>
-          <Text color={textColor} fontSize='xl' fontWeight='600'>
-            Top Creators
-          </Text>
-          <Button variant='action'>See all</Button>
-        </Flex>
+       
         <Table {...getTableProps()} variant='simple' color='gray.500'>
           <Thead>
             {headerGroups.map((headerGroup, index) => (

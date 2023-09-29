@@ -39,7 +39,7 @@ const routes = [
     name: "Budget",
     layout: "/admin",
     icon: <Icon as={MdAttachMoney} width='20px' height='20px' color='inherit' />,
-    path: "/nft-marketplace",
+    path: "/budget",
     component: NFTMarketplace,
   },
   {
