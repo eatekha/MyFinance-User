@@ -22,33 +22,26 @@ import SignInCentered from "views/auth/signIn";
 
 const routes = [
   {
-    name: "Dashboard",
+    name: "Main Dashboard",
     layout: "/admin",
     path: "/default",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
   },
   {
-    name: "Transactions",
+    name: "Data Tables",
     layout: "/admin",
     icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-    path: "/transactions",
+    path: "/data-tables",
     component: DataTables,
   },
     {
     name: "Budget",
     layout: "/admin",
     icon: <Icon as={MdAttachMoney} width='20px' height='20px' color='inherit' />,
-    path: "/budget",
-    component: NFTMarketplace,
-  },
-  {
-    name: "Profile",
-    layout: "/admin",
     path: "/profile",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
-    component: Profile,
-  }
+    component: DataTables,
+  },
   /*
   {
     name: "NFT Marketplace",

@@ -1,6 +1,33 @@
+/*!
+  _   _  ___  ____  ___ ________  _   _   _   _ ___   
+ | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
+ | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
+ |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
+ |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
+                                                                                                                                                                                                                                                                                                                                       
+=========================================================
+* Horizon UI - v1.1.0
+=========================================================
 
+* Product Page: https://www.horizon-ui.com/
+* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
+
+* Designed and Coded by Simmmple
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+// Chakra imports
 import { Box, SimpleGrid, Grid } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
+import extractUsername from "components/functions/extractUsername";
+
+import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
+import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
+import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
 import React, { useState, useEffect } from "react";
 import Upload from "../profile/components/Upload";
 
@@ -31,13 +58,14 @@ const columnsDataDevelopment = [
 
 export default function Settings() {
   
-  const user_id = sessionStorage.getItem('user_id');
+
   const [tableDataDevelopment, setTableDataDevelopment] = useState([]);
+  const username = extractUsername();
 
 
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/transactionTable';
+      const apiUrl = 'http://localhost:4000/transactionTable';
 
       try {
         const response = await fetch(apiUrl, {
@@ -45,7 +73,7 @@ export default function Settings() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_id: user_id })
+          body: JSON.stringify({ user_name: username })
         });
 
         if (!response.ok) {
@@ -65,7 +93,7 @@ export default function Settings() {
     }
 
     fetchUserData();
-  }, [user_id]);
+  }, [username]);
 
   // Chakra Color Mode
   return (

@@ -7,13 +7,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Card from "components/card/Card.js";
+import extractUsername from "components/functions/extractUsername";
 import React, { useState } from "react";
 import { MdUpload } from "react-icons/md";
 import Dropzone from "views/admin/profile/components/Dropzone";
 
 export default function Upload(props) {
   const [selectedFile, setSelectedFile] = useState(null);
-	const username = sessionStorage.getItem('user_name');
+  const username = extractUsername();
 
 
   const handleFileSelected = (file) => {
@@ -27,7 +28,7 @@ export default function Upload(props) {
       formData.append("file", selectedFile);
       console.log(formData);
   
-      fetch("https://my-finance-eseosa-62c6b070143e.herokuapp.com/upload", {
+      fetch("http://localhost:4000/upload", {
         method: "POST",
         body: formData,
       })
@@ -38,7 +39,7 @@ export default function Upload(props) {
           console.log("Username:", username);
 
           // Proceed to the second API POST call
-          return fetch("https://my-finance-eseosa-62c6b070143e.herokuapp.com/insert", {
+          return fetch("http://localhost:4000/insert", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

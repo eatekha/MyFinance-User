@@ -5,17 +5,18 @@ import Card from "components/card/Card.js";
 import PieChart from "components/charts/PieChart";
 import { VSeparator } from "components/separator/Separator";
 import React, { useEffect, useState, useMemo } from "react";
+import extractUsername from "components/functions/extractUsername";
 
 export default function Conversion(props) {
 //[expense data], [expenses]
 
-const user_id = sessionStorage.getItem('user_id');
 const [categories, setCategories] = useState([]);
 const [categoryValue, setCategoryValue] = useState([]);
+const username = extractUsername();
 
 useEffect(() => {
   async function fetchUserData() {
-    const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/pieChart'; 
+    const apiUrl = 'http://localhost:4000/pieChart'; 
 
     try {
       const response = await fetch(apiUrl, {
@@ -23,7 +24,7 @@ useEffect(() => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
+        body: JSON.stringify({ user_name: username })
       });
 
       if (!response.ok) {
@@ -45,7 +46,7 @@ useEffect(() => {
   }
 
   fetchUserData();
-}, [user_id]); // Add username as a dependency to useEffect
+}, [username]); // Add username as a dependency to useEffect
 
 
 
@@ -54,7 +55,7 @@ const pieChartData = categoryValue;
 
 const pieChartOptions = {
   labels: categories,
-  colors: ["#00008B", "#1F75FE", "#74BBFB", "#0B0B3B", "#0000FF", "#0755b3", "#D633FF", "#33EFFF", "#0B0B61"],
+  colors: ["#4318FF", "#6AD2FF", "#000000", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
   chart: {
     width: "50px",
   },
@@ -83,7 +84,7 @@ const pieChartOptions = {
     },
   },
   fill: {
-    colors: ["#00008B", "#1F75FE", "#74BBFB", "#0B0B3B", "#0000FF", "#0755b3", "#33EFFF"],
+    colors: ["#4318FF", "#6AD2FF", "#000000", "#FF5733", "#FFC300", "#33FF57", "#D633FF", "#33EFFF", "#FF33B4"],
   },
   tooltip: {
     enabled: true,

@@ -22,16 +22,18 @@ import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import {  lineChartOptionsTotalSpent,
 } from "variables/charts";
 import { useState, useEffect, useMemo } from 'react';
+import extractUsername from "components/functions/extractUsername";
 
 
 export default function TotalSpent(props) {
   //Code
   const [expenseData, setExpenseData] = useState([]);
   const [earningsData, setEarningsData] = useState([]);
+  const username = extractUsername();
 
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/transactionsChart'; // Replace with your actual API URL
+      const apiUrl = 'http://localhost:4000/transactionsChart'; // Replace with your actual API URL
 
       try {
         const response = await fetch(apiUrl, {
@@ -39,7 +41,7 @@ export default function TotalSpent(props) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
+          body: JSON.stringify({ user_name: username })
         });
 
         if (!response.ok) {

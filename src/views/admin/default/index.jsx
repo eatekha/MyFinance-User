@@ -3,6 +3,8 @@ Thhis file calls on thte transaction summary api and get the values necessary fo
 it then renders it onto the dashboard
 
 */
+
+// Chakra imports
 import {
   Avatar,
   Box,
@@ -29,11 +31,13 @@ import {
 } from "react-icons/md";
 
 import PieCard from "views/admin/default/components/PieCard";
+import extractUsername from 'components/functions/extractUsername';
+
 import TotalSpent from "views/admin/default/components/TotalSpent";
 
 export default function UserReports() {
 
-  const user_id = sessionStorage.getItem('user_id');
+  const username = extractUsername();
   const [expenses, setExpenses] = useState("0"); // Initialize as a string
   const [earnings, setEarnings] = useState(0);
   const [transactionTotal, setTransactionTotal] = useState("0");
@@ -44,10 +48,9 @@ export default function UserReports() {
 
 
 
-  async function fetchTransactionTotal(user_id) {
-    const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/totalProjects'; 
-    const requestBody = JSON.stringify({ user_id: user_id });
-
+  async function fetchTransactionTotal(username) {
+    const apiUrl = 'http://localhost:4000/totalProjects'; 
+    const requestBody = JSON.stringify({ user_name: username });
   
     try {
       const response = await fetch(apiUrl, {
@@ -75,8 +78,8 @@ export default function UserReports() {
 
 
   useEffect(() => {
-    fetchTransactionTotal(user_id);
-    fetchData(user_id);
+    fetchTransactionTotal(username);
+    fetchData(username);
   }, []);
 
 
@@ -93,13 +96,12 @@ export default function UserReports() {
 
   const fetchData = async (username) => {
     try {
-      const response = await fetch('https://my-finance-eseosa-62c6b070143e.herokuapp.com/summaryTransactions', {
+      const response = await fetch('http://localhost:4000/summaryTransactions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') , month:currentMonth}), // Modify as needed
-
+        body: JSON.stringify({ user_name: username, month: currentMonth })
       });
 
       if (!response.ok) {
@@ -129,7 +131,7 @@ export default function UserReports() {
   
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/pieChart'; 
+      const apiUrl = 'http://localhost:4000/pieChart'; 
   
       try {
         const response = await fetch(apiUrl, {
@@ -137,7 +139,7 @@ export default function UserReports() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
+          body: JSON.stringify({ user_name: username })
         });
   
         if (!response.ok) {
@@ -162,7 +164,7 @@ export default function UserReports() {
     }
   
     fetchUserData();
-  }, [user_id]); // Add username as a dependency to useEffect
+  }, [username]); // Add username as a dependency to useEffect
   
   
   
