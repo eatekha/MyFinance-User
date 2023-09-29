@@ -20,7 +20,6 @@ import { ItemContent } from 'components/menu/ItemContent';
 import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
 import PropTypes from 'prop-types';
-import ExtractUsername from 'components/functions/ExtractUsername';
 import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
 
