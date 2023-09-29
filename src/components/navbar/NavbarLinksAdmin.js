@@ -1,4 +1,6 @@
 // Chakra Imports
+import React from 'react';
+
 import {
 	Avatar,
 	Button,
@@ -18,20 +20,54 @@ import { ItemContent } from 'components/menu/ItemContent';
 import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
 import PropTypes from 'prop-types';
-import React from 'react';
-// Assets
-import navImage from 'assets/img/layout/Navbar.png';
-import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes.js';
-import { ThemeEditor } from './ThemeEditor';
-import extractUsername from 'components/functions/extractUsername';
+
+import { useState, useEffect } from 'react';
+
 
 export default function HeaderLinks(props) {
+	
+	const user_id = sessionStorage.getItem('user_id');
+	const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/getUsername';
+	const requestBody = JSON.stringify({ user_id: user_id });
+	const [username, setUsername] = useState(null);
 
-	const username = extractUsername();
+  
+	// Define an async function to fetch data
+	useEffect(() => {
+  
+	async function fetchData() {
+	  try {
+		const response = await fetch(apiUrl, {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+		  },
+		  body: requestBody,
+		});
+  
+		if (!response.ok) {
+		  throw new Error('Network response was not ok');
+		}
+  
+		const data = await response.json();
+		setUsername(data.username);
+	  } catch (error) {
+		console.error('Error:', error);
+	  }
+	}
+  
+	  if (user_id) {
+		fetchData(); // Call the fetchData function without a return statement
+	  }
+	}, [user_id]);
 
-
+	  
+	
+	const handleLogoutClick = () => {
+		sessionStorage.clear();
+	  };
 	const { secondary } = props;
 	// Chakra Color Mode
 	const navbarIcon = useColorModeValue('gray.400', 'white');
@@ -107,10 +143,7 @@ export default function HeaderLinks(props) {
 					</Flex>
 					<Flex flexDirection="column" p="10px">
 						<MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} borderRadius="8px" px="14px">
-							<Text fontSize="sm">Profile Settings</Text>
-						</MenuItem>
-						<MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} borderRadius="8px" px="14px">
-							<Text fontSize="sm">Newsletter Settings</Text>
+						<Link fontSize='sm' href='#/admin/profile'>Profile Settings</Link>
 						</MenuItem>
 						<MenuItem
 							_hover={{ bg: 'none' }}
@@ -118,7 +151,7 @@ export default function HeaderLinks(props) {
 							color="red.400"
 							borderRadius="8px"
 							px="14px">
-							<Text fontSize="sm">Log out</Text>
+							<Link  color='red' fontSize='sm' href='https://my-finance-landing-page-7367ccd5cd6d.herokuapp.com/' onClick={handleLogoutClick}>Log Out </Link> 
 						</MenuItem>
 					</Flex>
 				</MenuList>
