@@ -17,14 +17,11 @@ import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
 
-// Auth Imports
-import SignInCentered from "views/auth/signIn";
-
 const routes = [
   {
     name: "Dashboard",
     layout: "/admin",
-    path: "/default",
+    path: "/dashboard",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
   },
