@@ -30,7 +30,7 @@ import { useState, useEffect } from 'react';
 export default function HeaderLinks(props) {
 	
 	const user_id = sessionStorage.getItem('user_id');
-	const apiUrl = 'http://localhost:4000/getUsername';
+	const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/getUsername';
 	const requestBody = JSON.stringify({ user_id: user_id });
 	const [username, setUsername] = useState(null);
 
@@ -152,7 +152,7 @@ export default function HeaderLinks(props) {
 							color="red.400"
 							borderRadius="8px"
 							px="14px">
-							<Link  color='red' fontSize='sm' href='http://localhost:3000/' onClick={handleLogoutClick}>Log Out </Link> 
+							<Link  color='red' fontSize='sm' href='https://my-finance-landing-page-7367ccd5cd6d.herokuapp.com/' onClick={handleLogoutClick}>Log Out </Link> 
 						</MenuItem>
 					</Flex>
 				</MenuList>

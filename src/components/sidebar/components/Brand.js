@@ -16,7 +16,7 @@ export function SidebarBrand() {
 
   return (
     <Flex align='center' direction='column'>
-      <Link href='http://localhost:3001/#/admin/default'>
+      <Link href='https://my-finance-dashboard-29227dab4c63.herokuapp.com/#/admin/default'>
       <TestLogo h='80px' w='100px' my='32px' color={logoColor} />
       </Link>
 

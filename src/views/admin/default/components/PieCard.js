@@ -15,7 +15,7 @@ const [categoryValue, setCategoryValue] = useState([]);
 
 useEffect(() => {
   async function fetchUserData() {
-    const apiUrl = 'http://localhost:4000/pieChart'; 
+    const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/pieChart'; 
 
     try {
       const response = await fetch(apiUrl, {

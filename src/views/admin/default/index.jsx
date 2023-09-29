@@ -45,7 +45,7 @@ export default function UserReports() {
 
 
   async function fetchTransactionTotal(user_id) {
-    const apiUrl = 'http://localhost:4000/totalProjects'; 
+    const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/totalProjects'; 
     const requestBody = JSON.stringify({ user_id: user_id });
 
   
@@ -93,7 +93,7 @@ export default function UserReports() {
 
   const fetchData = async (username) => {
     try {
-      const response = await fetch('http://localhost:4000/summaryTransactions', {
+      const response = await fetch('https://my-finance-eseosa-62c6b070143e.herokuapp.com/summaryTransactions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ export default function UserReports() {
   
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = 'http://localhost:4000/pieChart'; 
+      const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/pieChart'; 
   
       try {
         const response = await fetch(apiUrl, {

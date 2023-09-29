@@ -12,7 +12,7 @@ import avatar from "assets/img/avatars/avatar4.png";
 export default function Overview() {
 
   const user_id = sessionStorage.getItem('user_id');
-	const apiUrl = 'http://localhost:4000/getUsername';
+	const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/getUsername';
 	const requestBody = JSON.stringify({ user_id: user_id });
 	const [username, setUsername] = useState(null);
 

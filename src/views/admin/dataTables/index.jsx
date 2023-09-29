@@ -37,7 +37,7 @@ export default function Settings() {
 
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = 'http://localhost:4000/transactionTable';
+      const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/transactionTable';
 
       try {
         const response = await fetch(apiUrl, {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 async function ExtractUsername() {
   const user_id = sessionStorage.getItem('user_id');
-  const apiUrl = 'http://localhost:4000/getUsername';
+  const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/getUsername';
   const requestBody = JSON.stringify({ user_id: user_id });
 
   // Define an async function to fetch data

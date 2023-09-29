@@ -27,7 +27,7 @@ export default function Upload(props) {
       formData.append("file", selectedFile);
       console.log(formData);
   
-      fetch("http://localhost:4000/upload", {
+      fetch("https://my-finance-eseosa-62c6b070143e.herokuapp.com/upload", {
         method: "POST",
         body: formData,
       })
@@ -38,7 +38,7 @@ export default function Upload(props) {
           console.log("Username:", username);
 
           // Proceed to the second API POST call
-          return fetch("http://localhost:4000/insert", {
+          return fetch("https://my-finance-eseosa-62c6b070143e.herokuapp.com/insert", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

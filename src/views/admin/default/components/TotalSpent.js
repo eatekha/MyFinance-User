@@ -31,7 +31,7 @@ export default function TotalSpent(props) {
 
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = 'http://localhost:4000/transactionsChart'; // Replace with your actual API URL
+      const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/transactionsChart'; // Replace with your actual API URL
 
       try {
         const response = await fetch(apiUrl, {

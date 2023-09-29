@@ -15,7 +15,7 @@ const sessionItem = sessionStorage.getItem('user_id'); //checks whether user log
     
 if (!sessionItem) {
   // Redirect to your desired link if it's empty
-window.location.href = 'http://localhost:3000/';
+window.location.href = 'https://my-finance-landing-page-7367ccd5cd6d.herokuapp.com/';
 }
 
 
