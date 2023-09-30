@@ -72,7 +72,7 @@ export default function UserReports() {
   useEffect(() => {
     fetchTransactionTotal(user_id);
     fetchData(user_id);
-  }, []);
+  }, [user_id]);
 
 
 
