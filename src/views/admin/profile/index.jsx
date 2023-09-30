@@ -40,9 +40,9 @@ export default function Overview() {
 	}
   
 	  if (user_id) {
-		fetchData(); // Call the fetchData function without a return statement
+		fetchData(); 
 	  }
-	}, [user_id]);
+	});
 
 
 

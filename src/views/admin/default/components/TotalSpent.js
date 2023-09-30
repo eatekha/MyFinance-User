@@ -15,7 +15,6 @@ import {
 import Card from "components/card/Card.js";
 import LineChart from "components/charts/LineChart";
 import React from "react";
-import { IoCheckmarkCircle } from "react-icons/io5";
 import { MdBarChart, MdOutlineCalendarToday } from "react-icons/md";
 // Assets
 import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
@@ -161,7 +160,7 @@ export default function TotalSpent(props) {
             fontSize='sm'
             fontWeight='700'
           >
-            {expenseData[4] == 0
+            {expenseData[4] === 0
               ?`${expenseData[5]}%` 
               : `${(expenseData[5] / expenseData[4]).toFixed(2)}%`}
           </Text>
