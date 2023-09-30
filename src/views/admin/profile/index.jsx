@@ -2,12 +2,10 @@ import { Box, Grid } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
 // Custom components
-import { Avatar } from "@chakra-ui/react";
 import Banner from "views/admin/profile/components/Banner";
 
 // Assets
 import banner from "assets/img/auth/banner.png";
-import avatar from "assets/img/avatars/avatar4.png";
 
 export default function Overview() {
 
