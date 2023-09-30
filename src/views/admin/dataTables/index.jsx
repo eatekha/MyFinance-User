@@ -64,8 +64,10 @@ export default function Settings() {
       }
     }
 
+    if (user_id){
     fetchUserData();
-  }, []);
+    }
+  }, [user_id]);
 
   // Chakra Color Mode
   return (

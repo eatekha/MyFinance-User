@@ -22,7 +22,7 @@ useEffect(() => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
+        body: JSON.stringify({ user_id: user_id}), // Modify as needed
       });
 
       if (!response.ok) {
@@ -43,8 +43,10 @@ useEffect(() => {
     }
   }
 
+  if (user_id){
   fetchUserData();
-}, []); // Add username as a dependency to useEffect
+  }
+}, [user_id]); // Add username as a dependency to useEffect
 
 
 

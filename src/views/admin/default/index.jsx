@@ -28,6 +28,7 @@ import TotalSpent from "views/admin/default/components/TotalSpent";
 
 export default function UserReports() {
 
+  
   const user_id = sessionStorage.getItem('user_id');
   const [expenses, setExpenses] = useState("0"); // Initialize as a string
   const [earnings, setEarnings] = useState(0);
@@ -67,11 +68,9 @@ export default function UserReports() {
     }
   }
 
-
-
-
-
-
+  
+  useEffect(() => {
+    if (user_id) {
 
   const fetchData = async () => {
     try {
@@ -80,7 +79,7 @@ export default function UserReports() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id'), month: "September"}), // Modify as needed
+        body: JSON.stringify({ user_id: user_id, month: currentMonth}), // Modify as needed
       
 
       });
@@ -102,10 +101,14 @@ export default function UserReports() {
   };
 
 
-  useEffect(() => {
+
+
     fetchTransactionTotal(user_id);
     fetchData();
-  }, []);
+    }
+  }, [user_id, currentMonth]);
+
+
 
 
 
@@ -134,7 +137,7 @@ export default function UserReports() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') }), // Modify as needed
+          body: JSON.stringify({ user_id: user_id}), // Modify as needed
         });
   
         if (!response.ok) {
@@ -152,8 +155,11 @@ export default function UserReports() {
       }
     }
   
+    if (user_id) {
+
     fetchUserData();
-  }, []); // Add username as a dependency to useEffect
+    }
+  }, [user_id]); // Add username as a dependency to useEffect
   
 
   

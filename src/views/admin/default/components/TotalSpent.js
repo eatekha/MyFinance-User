@@ -28,6 +28,8 @@ export default function TotalSpent(props) {
   const [expenseData, setExpenseData] = useState([]);
   const [earningsData, setEarningsData] = useState([]);
 
+  const user_id = sessionStorage.getItem('user_id');
+
   useEffect(() => {
     async function fetchUserData() {
       const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/transactionsChart'; // Replace with your actual API URL
@@ -54,8 +56,10 @@ export default function TotalSpent(props) {
       }
     }
 
+    if (user_id){
     fetchUserData();
-  }, []);
+    }
+  }, [user_id]);
   
   const lineChartDataTotalSpent = useMemo(() => [
     {

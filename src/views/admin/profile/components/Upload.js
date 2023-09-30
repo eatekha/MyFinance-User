@@ -13,7 +13,7 @@ import Dropzone from "views/admin/profile/components/Dropzone";
 
 export default function Upload(props) {
   const [selectedFile, setSelectedFile] = useState(null);
-	const username = sessionStorage.getItem('user_name');
+	const user_id = sessionStorage.getItem('user_id');
 
 
   const handleFileSelected = (file) => {
@@ -21,6 +21,7 @@ export default function Upload(props) {
   };
 
   const handleFileUpload = () => {
+    if (user_id){
 
     if (selectedFile) {
       const formData = new FormData();
@@ -35,7 +36,6 @@ export default function Upload(props) {
         .then((data) => {
           // Handle API response from the first POST call
           console.log("Upload API Response:", data);
-          console.log("Username:", username);
 
           // Proceed to the second API POST call
           return fetch("https://my-finance-eseosa-62c6b070143e.herokuapp.com/insert", {
@@ -43,14 +43,13 @@ export default function Upload(props) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ user_name: username }), // Modify as needed
+            body: JSON.stringify({ user_id: user_id }), // Modify as needed
           });
         })
         .then((secondResponse) => secondResponse.json())
         .then((secondData) => {
           // Handle API response from the second POST call
           console.log("Second API Response:", secondData);
-          console.log("Username:", username);
 
 
                   // Reload the page
@@ -63,6 +62,7 @@ export default function Upload(props) {
           console.error("Error:", error);
         });
     }
+  }
   };
   
 
