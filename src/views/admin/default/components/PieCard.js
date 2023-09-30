@@ -44,7 +44,7 @@ useEffect(() => {
   }
 
   fetchUserData();
-}, [user_id]); // Add username as a dependency to useEffect
+}, []); // Add username as a dependency to useEffect
 
 
 

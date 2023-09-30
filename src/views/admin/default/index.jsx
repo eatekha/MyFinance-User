@@ -39,6 +39,7 @@ export default function UserReports() {
 
 
 
+
   async function fetchTransactionTotal(user_id) {
     const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/totalProjects'; 
     const requestBody = JSON.stringify({ user_id: user_id });
@@ -69,10 +70,42 @@ export default function UserReports() {
 
 
 
+
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://my-finance-eseosa-62c6b070143e.herokuapp.com/summaryTransactions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id'), month: "September"}), // Modify as needed
+      
+
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const data = await response.json();
+      setExpenses(data.Expenses.total_negative_amount);
+      console.log(data.Earnings.total_positive_amount);
+      const parsedEarnings = parseFloat(data.Earnings.total_positive_amount);
+      setEarnings(isNaN(parsedEarnings) ? 0 : parsedEarnings);
+      setTransactionTotal((data.TotalTransactions.count));
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error state here if needed
+    }
+  };
+
+
   useEffect(() => {
     fetchTransactionTotal(user_id);
-    fetchData(user_id);
-  });
+    fetchData();
+  }, []);
 
 
 
@@ -84,37 +117,6 @@ export default function UserReports() {
     const parsedDiff = parseFloat(earnings) + parseFloat(expenses);
     setDiff(isNaN(parsedDiff) ? 0: parsedDiff);
   }, [earnings, expenses]);
-
-
-  const fetchData = async (username) => {
-    try {
-      const response = await fetch('https://my-finance-eseosa-62c6b070143e.herokuapp.com/summaryTransactions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user_id: sessionStorage.getItem('user_id') , month:currentMonth}), // Modify as needed
-
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
-      const data = await response.json();
-
-      setExpenses(data.Expenses.total_negative_amount);
-      const parsedEarnings = parseFloat(data.Earnings.total_positive_amount);
-      setEarnings(isNaN(parsedEarnings) ? 0 : parsedEarnings);
-      setTransactionTotal((data.TotalTransactions.count));
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle error state here if needed
-    }
-  };
-
-
-
 
 
 
@@ -144,21 +146,16 @@ export default function UserReports() {
         const maxKey = Object.keys(data).reduce((a, b) => data[a] > data[b] ? a : b);
         setMaxKey(maxKey)
 
-        // Process the data and update the state variables
-        //const categoriesArray = Object.keys(data); // Extract category names
-        //const valuesArray = Object.values(data).map(value => value === null ? 0 : value) ; // Replace null with 0
-  
-        //setCategories(categoriesArray); // Update categories state
-        //setCategoryValue(valuesArray); // Update categoryValue state
-  
+      
       } catch (error) {
         console.error("Error:", error);
       }
     }
   
     fetchUserData();
-  }, [user_id]); // Add username as a dependency to useEffect
+  }, []); // Add username as a dependency to useEffect
   
+
   
   
   

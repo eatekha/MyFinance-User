@@ -5,8 +5,9 @@ export default async function ExtractUsername() {
   const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/getUsername';
   const requestBody = JSON.stringify({ user_id: user_id });
 
-  // Define an async function to fetch data
-  useEffect(() => {
+//only call if value changes
+
+useEffect(() => {
 
   async function fetchData() {
     try {
@@ -35,7 +36,7 @@ export default async function ExtractUsername() {
     if (user_id) {
       fetchData(); // Call the fetchData function without a return statement
     }
-  }, [apiUrl, requestBody, user_id]);
+  }, []);
 
 
 }
