@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-async function ExtractUsername() {
+export default async function ExtractUsername() {
   const user_id = sessionStorage.getItem('user_id');
   const apiUrl = 'https://my-finance-eseosa-62c6b070143e.herokuapp.com/getUsername';
   const requestBody = JSON.stringify({ user_id: user_id });
@@ -25,17 +25,18 @@ async function ExtractUsername() {
       const data = await response.json();
       return data.username;
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error getting username from api call getUsername', error);
     }
   }
 
+
+
+  //only calls this function if there is userId
     if (user_id) {
       fetchData(); // Call the fetchData function without a return statement
     }
-  }, [user_id]);
+  }, [apiUrl, requestBody, user_id]);
 
 
-  // No return statement in this function
 }
 
-export default ExtractUsername;

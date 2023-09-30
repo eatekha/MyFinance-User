@@ -36,7 +36,7 @@ ReactDOM.render(
 				<HashRouter>
 					<Switch>
 						<Route path={`/admin`} component={AdminLayout} />
-						<Redirect from='/' to='/admin/dashboard' />
+						<Redirect from='/' to='/admin' />
 					</Switch>
 				</HashRouter>
 			</ThemeEditorProvider>
