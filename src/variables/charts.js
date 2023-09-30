@@ -1,15 +1,8 @@
 // Daily Traffic Dashboards Default
-import React, { useState, useEffect } from 'react';
 import getLast6MonthsArray from 'components/functions/sixMonthSummary';
 
 
 
-
-export default function YourComponent() {
-
-
-  // Rest of your component code...
-}
 
 
 

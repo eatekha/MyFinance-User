@@ -1,5 +1,5 @@
 
-import { Box, SimpleGrid, Grid } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
 import React, { useState, useEffect } from "react";
 import Upload from "../profile/components/Upload";
