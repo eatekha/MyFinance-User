@@ -118,7 +118,7 @@ export default function UserReports() {
   useEffect(() => {
     // Calculate the difference whenever earnings or expenses change
     const parsedDiff = parseFloat(earnings) + parseFloat(expenses);
-    setDiff(isNaN(parsedDiff) ? 0: parsedDiff);
+    setDiff(isNaN(parsedDiff) ? 0: Math.round(parsedDiff*100)/100);
   }, [earnings, expenses]);
 
 
