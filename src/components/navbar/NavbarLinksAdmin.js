@@ -58,7 +58,7 @@ export default function HeaderLinks(props) {
 	  if (user_id) {
 		fetchData(); // Call the fetchData function without a return statement
 	  }
-	}, []);
+	}, [requestBody, user_id]);
 
 	  
 	
