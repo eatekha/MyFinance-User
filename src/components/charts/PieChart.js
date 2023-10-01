@@ -18,6 +18,14 @@ class PieChart extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.setState({
+      chartData: [],
+      chartOptions: {},
+    });
+  }
+
+
   render() {
     return (
       <ReactApexChart

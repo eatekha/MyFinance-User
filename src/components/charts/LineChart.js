@@ -17,6 +17,12 @@ class LineChart extends React.Component {
       chartOptions: this.props.chartOptions,
     });
   }
+  componentWillUnmount() {
+    this.setState({
+      chartData: [],
+      chartOptions: {},
+    });
+  }
 
   render() {
     return (
